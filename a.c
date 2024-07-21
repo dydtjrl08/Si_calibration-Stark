@@ -5,10 +5,14 @@ void a(){
         TTree *tree = (TTree*) file -> Get("channels");
 
 
-        //TCanvas *c1 = new TCanvas(); // 32행 3열 캔버스 만들기
-        TCanvas *c1 = new TCanvas("cvs","cvs",2000,2000);
 
-        c1 -> Divide(3,12);
+
+        
+
+        //TCanvas *c1 = new TCanvas(); // 32행 3열 캔버스 만들기
+        //TCanvas *c1 = new TCanvas("cvs","cvs",2000,2000);
+
+        //c1 -> Divide(3,12);
         tree -> SetBranchAddress("adc",&adc);
         tree -> SetBranchAddress("det",&det); // 디텍터는 3개다.
         tree -> SetBranchAddress("dch",&dch); // 채널이다. 채널의 개수 : 32개
@@ -20,12 +24,12 @@ void a(){
         TH1D *Hist_adc[32]; // 배열로 히스토그램 하나의 det의 32개 채널 선언
 
 
-        for(int k = 1; k < 33; k++){
+ /*       for(int k = 1; k < 33; k++){
     
             Hist_adc[k-1] = new TH1D(Form("hist%i_%i",3,k),Form("Histo%i_%i",3,k),50,1450,1600); // 여기 있는 2는 detetor의 번호를 의미. 3,4로 바꿔서 돌려라.
 
         }
-
+*/
 
 
         int entry_max = 0;
@@ -55,22 +59,17 @@ void a(){
         File.open("result_2.txt",ios::out);
 
         for(int i = 0; i < 32 ; i++){
-            c1->cd(i+1);
+            //c1->cd(i+1);
             auto fit = new TF1("fit","gaus(0)",1450,1600);
             //fit->Reset("ICESM");
-            Hist_adc[i] -> Fit(fit,"RQ");
-            Hist_adc[i] ->Draw();
+            //Hist_adc[i] -> Fit(fit,"RQ");
+            //Hist_adc[i] ->Draw();
            
 
-
-            
-
-
-            
+            auto amplitude = fit -> GetParameter(0);
             auto mean = fit -> GetParameter(1);
             auto sigma = fit -> GetParameter(2);
-            auto constant = mean / (sigma*5.4) * 100.; 
-            File << constant <<" "<< mean <<" "<< sigma << endl;
+            File << amplitude <<" "<< mean <<" "<< sigma << endl;
 
         }
 
