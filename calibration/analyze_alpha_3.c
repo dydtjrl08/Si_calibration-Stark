@@ -34,11 +34,12 @@ void analyze_alpha_3(){
 	{
 		
 		
+			TH1D *hist = (TH1D*)tree -> Clone("adc");
+		
 			auto cvs1 = new TCanvas(Form("raw_adc_det%d_1",int(det)),"cvs1",1200,700);
 			cvs1-> Divide(4,4);			
 			auto cvs2 = new TCanvas(Form("raw_adc_det%d_2",int(det)),"cvs2",1200,700);			
 			cvs2 -> Divide(4,4);
-		
 			for(auto dch =1 ; dch <=32 ; ++dch){
 				TVirtualPad* pad;		
 				if(dch <=16)
@@ -52,13 +53,14 @@ void analyze_alpha_3(){
 				
 				TCut cut = Form("det == %d && dch == %d",det, dch);
 				
-				auto hist = new TH1D(nameHist,cut,1000,0,2000);
+			//	auto hist = new TH1D(nameHist,cut,1000,0,2000);
 				
 			//	TString selection = Form("adc*f>>%s",1.0,nameHist.Data());		
-				
-		// there should be fixed from tree to hist		tree -> Draw("adc",cut);				
-				
-					
+				tree -> Draw("adc",cut);
+				hist -> Draw("adc",cut);
+			//	TH1D* hist = (TH1D*)tree->Clone("adc");				
+			
+						
 				auto mean = hist -> GetBinCenter(hist -> GetMaximumBin());
 				auto amplitude = hist -> GetBinContent(hist -> GetMaximumBin());
 

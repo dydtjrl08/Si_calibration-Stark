@@ -19,12 +19,12 @@ void analyze_alpha(){
 	tree -> SetBranchAddress("dch",&dch);
 	
 	int entry = tree -> GetEntries();
-	TH1F *hist = new TH1F(Form("hist_det == %d && dch == %d",2, 16),"Histogram",50,1200,1280);
+	TH1F *hist = new TH1F(Form("hist_det == %d && dch == %d",2, 10),"Histogram",50,1200,1280);
 
 	double ratio = 0.128;
 	int alpha_2nd = 0;
 
-	TString s = "det == 2 && dch == 16";
+	TString s = "det == 2 && dch == 10";
 
 	int entry_det2_dch16 = tree -> GetEntries(s);
         
@@ -34,7 +34,7 @@ void analyze_alpha(){
 	auto sigma_alpha1 = hist -> GetStdDev();
 	
 
-	TH1F *hist2 = new TH1F(Form("hist_det == %d && dch == %d and high alpha",2,16),"Hist",50,1400,1600);
+	TH1F *hist2 = new TH1F(Form("hist_det == %d && dch == %d and high alpha",2,10),"Hist",50,1400,1600);
 //	hist2 -> SetRange(1420,1800);
 	auto sigma_alpha2 = hist2 -> GetStdDev();
 
@@ -42,11 +42,11 @@ void analyze_alpha(){
 
 	for(int i = 0; i < entry; ++i){
 		tree -> GetEntry(i);
-		if(det == 2 && dch == 16 && adc >= 1200 && adc <= 1400){
+		if(det == 2 && dch == 10 && adc >= 1200 && adc <= 1400){
 			hist -> Fill(adc);
 			alpha_2nd++;	
 		}
-		else if(det == 2 && dch == 16 && adc > 1400 && adc < 1600){
+		else if(det == 2 && dch == 10 && adc > 1400 && adc < 1600){
 			hist2 -> Fill(adc);
 			entry_high++;
 		}

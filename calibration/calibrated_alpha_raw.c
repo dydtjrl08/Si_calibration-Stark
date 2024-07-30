@@ -28,14 +28,14 @@ void one_gauss(){
 		 }
 	 hist -> Draw();
 
-	 cout << user_exponent(x,par) << endl;
+	 cout << user_equation(x,par) << endl;
 	                                      
-	 TF1 *f1 = new TF1("f1",user_exponent,0,100,3);
+	 TF1 *f1 = new TF1("f1",user_equation,0,100,3);
 	 f1 -> SetParameters(100,50,20);
 	 f1 -> SetNpx(1000);
 	 f1 -> SetParNames("Amplitude","Mean","Sigma");
 	 hist -> Fit(f1);	 
-
+}
 
 
 void calibrated_alpha_raw()
