@@ -9,10 +9,6 @@ double user_equation(Double_t *x,Double_t *par){
 			double mean_2 = mean *(5.443 / 5.486); //MeV
 			double sigma_2 = sigma * (mean_2 / mean); 
 			double amplitude_2 = amplitude * sigma / 6.65625 / sigma_2;
-
-
-			
-			
 			
 			double exponent = - ( ( x0 - mean ) * (x0 - mean)) / ( 2 * sigma * sigma); 
 			double exponent_2 = - ( ( x0 - mean_2 ) * (x0 - mean_2)) / ( 2 * sigma_2 * sigma_2); 
@@ -131,11 +127,11 @@ void data_fit_function(){
 			fit -> SetParameters(par);
 			fit -> SetRange(mean - 0.5*sigma, mean * 3*sigma);	
 		
+			hist -> SetTitle(Form("Det%i, Ch%i ; ADC ; Counts", i, j));
 			hist -> Draw();
-			hist -> Fit(fit,"RQO");
+			hist -> Fit(fit,"RQ");
 
 		
-			
 			auto parameters = fit -> GetParameters();
 			cout << "amplitude1 is " << parameters[0] << endl;
 			double mean1,sigma1,amplitude1,mean2,sigma2,amplitude2;
@@ -148,44 +144,30 @@ void data_fit_function(){
 			fit_peak2 -> SetParameters(amplitude2,mean2,sigma2);
 
 				
-
 			fit_peak1 -> SetLineColor(kBlue);
-			fit_peak2 -> SetLineColor(kYellow);
-			
-//			fit_peak1 -> Draw("samel");
-//			fit_peak2 -> Draw("samel");
-			
-//			hist -> Fit(fit_peak1," samel");
-//			hist -> Fit(fit_peak2," samel");
-			Double_t param[6];
-			
+			fit_peak2 -> SetLineColor(kYellow+2);
 			
 			fit_peak1 -> Draw("samel");
 			fit_peak2 -> Draw("samel");
+			
+
+			Double_t param[6];
 
 				
 			fit_peak1 -> GetParameters(&param[0]);
 			fit_peak2 -> GetParameters(&param[3]);
 			
-//			auto Total = new TF1("Total","gaus(0) + gaus(3)",x1,x2);
-//			Total -> SetLineColor(kBlack);
-//			Total -> SetParameters(param);
-//			hist -> Fit(Total,"R+ samel");
-	//		Total -> Draw("samel");
+			// auto Total = new TF1("Total","gaus(0) + gaus(3)",x1,x2);
+			// Total -> SetLineColor(kBlack);
+			// Total -> SetParameters(param);
+			// Total -> Draw("samel");
 			file.close();
-
-
-		//	hist -> Fit(fit2, "R+");
-		//	gStyle->SetOptStat(1111);
-//			cvs1 -> Update();
-//			cvs2 -> Update();			
-			
 		}
 
 		cvs1 -> cd();
-		cvs1 -> SaveAs(Form("figures_det16_%d.png",i));
+		cvs1 -> SaveAs(Form("figures_det16_%d.pdf",i));
 		cvs2 -> cd();
-		cvs2 -> SaveAs(Form("figures_det32_%d.png",i));
+		cvs2 -> SaveAs(Form("figures_det32_%d.pdf",i));
 
 
 
