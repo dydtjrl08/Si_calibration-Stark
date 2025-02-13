@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "TNamed.h"
+
 
 using namespace std;
 
